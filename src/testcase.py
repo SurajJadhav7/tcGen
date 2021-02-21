@@ -1,9 +1,10 @@
-import xlsxwriter
+import os
 import urllib.request as urllib2
 from urllib.parse import urlparse
-from bs4 import BeautifulSoup
+
 import click
-import os
+import xlsxwriter
+from bs4 import BeautifulSoup
 
 
 class ManualTestCases(object):
@@ -70,7 +71,9 @@ class ManualTestCases(object):
         for i, div in enumerate(anchors_list):
             self.row_count += 1
             link_text = " ".join(
-                ("".join(ch for ch in div.text if ch.isalnum() or ch == " ")).split()
+                (
+                    "".join(ch for ch in div.text if ch.isalnum() or ch == " ")
+                ).split()
             )
             link_url = div.get("href")
             if link_url is None:
@@ -88,11 +91,19 @@ class ManualTestCases(object):
             # Writing in Output Sheet...
             self.worksheet.write(
                 "A" + str(self.row_count),
-                "UC" + str(self.row_count - 1) + "_" + case_name.lower() + "_click",
+                "UC"
+                + str(self.row_count - 1)
+                + "_"
+                + case_name.lower()
+                + "_click",
             )
             self.worksheet.write(
                 "B" + str(self.row_count),
-                "TC" + str(self.row_count - 1) + "_" + case_name.lower() + "_click",
+                "TC"
+                + str(self.row_count - 1)
+                + "_"
+                + case_name.lower()
+                + "_click",
             )
             self.worksheet.write("C" + str(self.row_count), link_text)
             self.worksheet.write(
@@ -105,7 +116,8 @@ class ManualTestCases(object):
                 "F" + str(self.row_count),
                 "Objective: To Validate opening of "
                 + link_text
-                + " link. \nPre-requisite - User should have desired access to the "
+                + " link. \nPre-requisite - User should have"
+                + " desired access to the "
                 + home
                 + " . \nTest steps: \n1. Go to "
                 + home
@@ -114,13 +126,18 @@ class ManualTestCases(object):
                 + " link.",
             )
             self.worksheet.write(
-                "G" + str(self.row_count), "1. " + link_text + " link should open."
+                "G" + str(self.row_count),
+                "1. " + link_text + " link should open.",
             )
             self.worksheet.write("H" + str(self.row_count), "Smoke")
             if link_url.startswith("/"):
-                self.worksheet.write_string("K" + str(self.row_count), home + link_url)
+                self.worksheet.write_string(
+                    "K" + str(self.row_count), home + link_url
+                )
             else:
-                self.worksheet.write_string("K" + str(self.row_count), link_url)
+                self.worksheet.write_string(
+                    "K" + str(self.row_count), link_url
+                )
             if i > 100000:
                 break
 
@@ -130,7 +147,9 @@ class ManualTestCases(object):
         for i, div in enumerate(buttons_list):
             self.row_count += 1
             button_text = " ".join(
-                ("".join(ch for ch in div.text if ch.isalnum() or ch == " ")).split()
+                (
+                    "".join(ch for ch in div.text if ch.isalnum() or ch == " ")
+                ).split()
             )
             case_name = button_text.replace(" ", "_")
             if button_text == "":
@@ -155,16 +174,19 @@ class ManualTestCases(object):
             )
             self.worksheet.write("C" + str(self.row_count), button_text)
             self.worksheet.write(
-                "D" + str(self.row_count), "Validating " + button_text + " button"
+                "D" + str(self.row_count),
+                "Validating " + button_text + " button",
             )
             self.worksheet.write(
-                "E" + str(self.row_count), "[" + home + "][" + button_text + "]"
+                "E" + str(self.row_count),
+                "[" + home + "][" + button_text + "]",
             )
             self.worksheet.write(
                 "F" + str(self.row_count),
                 "Objective: To Validate clicking "
                 + button_text
-                + " button. \nPre-requisite - User should have desired access to the "
+                + " button. \nPre-requisite - User should "
+                + "have desired access to the "
                 + home
                 + " . \nTest steps: \n1. Go to "
                 + home
@@ -179,7 +201,8 @@ class ManualTestCases(object):
                     "G" + str(self.row_count),
                     "1. "
                     + button_text
-                    + " button click should activate respective onClick function.",
+                    + " button click should activate "
+                    + "respective onClick function.",
                 )
             elif button_type is not None:
                 if button_type.lower() == "submit":
@@ -187,14 +210,16 @@ class ManualTestCases(object):
                         "G" + str(self.row_count),
                         "1. "
                         + button_text
-                        + " button click should activate submit action for respective input field.",
+                        + " button click should activate submit \
+                            action for respective input field.",
                     )
                 elif button_type.lower() == "reset":
                     self.worksheet.write(
                         "G" + str(self.row_count),
                         "1. "
                         + button_text
-                        + " button click should reset all input fields to default.",
+                        + " button click should reset "
+                        + "all input fields to default.",
                     )
                 elif button_type.lower() == "button":
                     self.worksheet.write(
@@ -247,7 +272,8 @@ class ManualTestCases(object):
             )
             self.worksheet.write("C" + str(self.row_count), input_box_name)
             self.worksheet.write(
-                "D" + str(self.row_count), "Validating " + input_box_name + " input box"
+                "D" + str(self.row_count),
+                "Validating " + input_box_name + " input box",
             )
             self.worksheet.write(
                 "E" + str(self.row_count),
@@ -257,13 +283,15 @@ class ManualTestCases(object):
                 "F" + str(self.row_count),
                 "Objective: To Validate "
                 + input_box_name
-                + " input box. \nPre-requisite - User should have desired access to the "
+                + " input box. \nPre-requisite - User should "
+                + "have desired access to the "
                 + home
                 + " . \nTest steps: \n1. Go to "
                 + home
                 + " .\n2. Click on "
                 + input_box_name
-                + " input box.\n3. Type relevant input in already clicked input box.",
+                + " input box.\n3. Type relevant input in "
+                + "already clicked input box.",
             )
             self.worksheet.write(
                 "G" + str(self.row_count),

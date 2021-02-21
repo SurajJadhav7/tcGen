@@ -29,7 +29,7 @@ python setup.py install
 ## Usage:
 
 ```shell
->>> tcgen 
+>>> tcgen
 Usage: tcgen [OPTIONS] COMMAND [ARGS]...
 
   Test case generator tool
@@ -40,7 +40,7 @@ Options:
 
 Commands:
   generate  Provide url
-  
+
 >>> tcgen generate --help
 Usage: tcgen generate [OPTIONS]
 
@@ -48,7 +48,7 @@ Usage: tcgen generate [OPTIONS]
 
 Options:
   -u, --url TEXT  URL to generate test cases
-  --help          Show this message and exit. 
+  --help          Show this message and exit.
 
 ```
 
@@ -56,6 +56,6 @@ Options:
 
 ```bash
 tcgen generate -u <url>
-``` 
+```
 
 **NOTE: User will find test cases sheet in file -/output.xlsx**
